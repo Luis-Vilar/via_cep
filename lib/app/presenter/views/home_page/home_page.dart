@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:via_cep/app/presenter/view_models/blocs/bloc/home_bloc.dart';
+import 'package:via_cep/app/presenter/view_models/bloc/home_bloc.dart';
 import 'package:via_cep/app/presenter/views/home_page/components/address_details_card.dart';
 import 'package:via_cep/app/presenter/views/home_page/components/map_card.dart';
 
