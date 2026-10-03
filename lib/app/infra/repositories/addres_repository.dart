@@ -1,6 +1,7 @@
 import 'dart:developer';
 
 import 'package:via_cep/app/domain/entities/address.dart';
+import 'package:via_cep/app/domain/entities/geolocation.dart';
 import 'package:via_cep/app/domain/interfaces/address_repository_interface.dart';
 import 'package:via_cep/app/infra/drivers/http_client.dart';
 import 'package:via_cep/app/infra/models/address_model.dart';
@@ -37,5 +38,11 @@ final class AddressRepository implements AddressRepositoryInterface {
     } catch (e) {
       return FailureResult(RepoErrorDefault(e.toString()));
     }
+  }
+
+  @override
+  Future<Result<Coordinates, Failure>> getCoordinates(String zipCode) {
+    // TODO: implement getCardinals
+    throw UnimplementedError();
   }
 }
