@@ -1,7 +1,6 @@
 import 'dart:convert';
 import 'dart:developer';
 
-import 'package:dio/dio.dart';
 import 'package:via_cep/app/domain/entities/address.dart';
 import 'package:via_cep/app/domain/entities/coordinates.dart';
 import 'package:via_cep/app/domain/interfaces/address_repository_interface.dart';
