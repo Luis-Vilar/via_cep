@@ -20,9 +20,9 @@ final class HttpClientDio implements HttpClientInterface {
     try {
       final response = await _dioClient.get(
         endpoint,
-        options: Options(headers: headers),
+        options: Options(headers: headers, responseType: ResponseType.plain),
       );
-      return Success(response.data as String);
+      return Success(response.data.toString());
     } catch (error) {
       log(error.toString());
       return FailureResult(DioErrorDefault(error.toString()));
