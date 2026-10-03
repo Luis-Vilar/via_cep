@@ -1,7 +1,7 @@
 import 'dart:developer';
 
 import 'package:via_cep/app/domain/entities/address.dart';
-import 'package:via_cep/app/domain/entities/geolocation.dart';
+import 'package:via_cep/app/domain/entities/coordinates.dart';
 import 'package:via_cep/app/domain/interfaces/address_repository_interface.dart';
 import 'package:via_cep/app/infra/drivers/http_client.dart';
 import 'package:via_cep/app/infra/models/address_model.dart';
@@ -16,7 +16,9 @@ final class AddressRepository implements AddressRepositoryInterface {
   Future<Result<Address, Failure>> getAddress(String zipCode) async {
     try {
       log(zipCode);
-      final response = await _httpClient.get('/ws/$zipCode/xml/');
+      final response = await _httpClient.get(
+        'https://viacep.com.br/ws/$zipCode/xml/',
+      );
 
       return await response.fold((failure) => FailureResult(failure), (data) {
         log(data);

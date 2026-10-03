@@ -8,7 +8,7 @@ import 'package:dio/dio.dart' hide DioError;
 final class HttpClientDio implements HttpClientInterface {
   final Dio _dioClient = Dio(
     BaseOptions(
-      baseUrl: 'https://viacep.com.br/',
+      // baseUrl: 'https://viacep.com.br/',
       connectTimeout: Duration(milliseconds: 5000),
     ),
   );
