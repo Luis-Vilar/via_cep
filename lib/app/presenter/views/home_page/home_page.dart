@@ -1,10 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:via_cep/app/domain/entities/address.dart';
 import 'package:via_cep/app/presenter/view_models/blocs/bloc/home_bloc.dart';
-import 'package:via_cep/app/presenter/view_models/blocs/bloc/map_bloc.dart';
 import 'package:via_cep/app/presenter/views/home_page/components/address_details_card.dart';
+import 'package:via_cep/app/presenter/views/home_page/components/map_card.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -90,9 +89,13 @@ class _HomePageState extends State<HomePage> {
                     }
 
                     if (state is HomeSuccess) {
-                      final address = state.address;
                       return SingleChildScrollView(
-                        child: MapCard(address: address),
+                        child: Column(
+                          children: [
+                            MapCard(cep: state.address.cep),
+                            AddressDetailsCard(address: state.address),
+                          ],
+                        ),
                       );
                     }
 
@@ -106,54 +109,6 @@ class _HomePageState extends State<HomePage> {
           ),
         ),
       ),
-    );
-  }
-}
-
-class MapCard extends StatelessWidget {
-  const new({super.key, required this.address});
-
-  final Address address;
-
-  @override
-  Widget build(BuildContext context) {
-    return Column(
-      children: [
-        SizedBox(
-          height: 400,
-          child: BlocProvider(
-            create: (context) =>
-                MapBloc()..add(GetCoordinates(zipCode: address.cep)),
-            child: BlocBuilder<MapBloc, MapState>(
-              builder: (context, state) {
-                if (state is MapLoading) {
-                  return Card(
-                    child: Center(child: CircularProgressIndicator()),
-                  );
-                }
-                if (state is MapSuccess) {
-                  return Card(
-                    child: Center(
-                      child: Row(
-                        mainAxisSize: MainAxisSize.min,
-                        children: [
-                          Text(state.coordinates.lat.toString()),
-                          Text(state.coordinates.lng.toString()),
-                        ],
-                      ),
-                    ),
-                  );
-                }
-                if (state is MapError) {
-                  return Card(child: Center(child: Text(state.message)));
-                }
-                return Card(child: Center(child: Text('Mapa não encontrado')));
-              },
-            ),
-          ),
-        ),
-        AddressDetailsCard(address: address),
-      ],
     );
   }
 }
