@@ -14,7 +14,7 @@ abstract class Address {
     this.complemento,
     this.unidade,
   });
-  int cep;
+  String cep;
   String logadouro;
   String? complemento;
   String? unidade;
