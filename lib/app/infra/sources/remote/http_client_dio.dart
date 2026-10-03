@@ -9,11 +9,11 @@ final class HttpClientDio implements HttpClientInterface {
   final Dio _dioClient = Dio(
     BaseOptions(
       baseUrl: 'https://viacep.com.br/',
-      connectTimeout: Duration(microseconds: 1000),
+      connectTimeout: Duration(milliseconds: 5000),
     ),
   );
   @override
-  Future<Result<Response, Failure>> get(
+  Future<Result<String, Failure>> get(
     String endpoint, {
     Map<String, String>? headers,
   }) async {
@@ -22,7 +22,7 @@ final class HttpClientDio implements HttpClientInterface {
         endpoint,
         options: Options(headers: headers),
       );
-      return Success(response.data);
+      return Success(response.data as String);
     } catch (error) {
       log(error.toString());
       return FailureResult(DioErrorDefault(error.toString()));
