@@ -1,6 +1,10 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:via_cep/app/presenter/view_models/blocs/bloc/map_bloc.dart';
+import 'package:flutter_map/flutter_map.dart';
+import 'package:latlong2/latlong.dart';
 
 class MapCard extends StatelessWidget {
   const new({super.key, required this.cep});
@@ -24,8 +28,14 @@ class MapCard extends StatelessWidget {
                   child: Column(
                     mainAxisSize: MainAxisSize.min,
                     children: [
-                      Text('Latitude  : ${state.coordinates.lat.toString()}'),
-                      Text('Longitude : ${state.coordinates.lng.toString()}'),
+                      SizedBox(
+                        height: 392,
+                        width: double.infinity,
+                        child: Map(
+                          lat: state.coordinates.lat,
+                          lng: state.coordinates.lng,
+                        ),
+                      ),
                     ],
                   ),
                 ),
@@ -39,5 +49,61 @@ class MapCard extends StatelessWidget {
         ),
       ),
     );
+  }
+}
+
+class Map extends StatelessWidget {
+  const new({super.key, required this.lat, required this.lng});
+  final double lat;
+  final double lng;
+
+  @override
+  Widget build(BuildContext context) {
+    return FlutterMap(
+      options: MapOptions(
+        initialCenter: LatLng(lat, lng), // Center the map over London, UK
+        initialZoom: 14.5,
+      ),
+      children: [
+        TileLayer(
+          // Bring your own tiles
+          urlTemplate: 'https://tile.openstreetmap.org/{z}/{x}/{y}.png', // For demonstration only
+          userAgentPackageName: 'com.example.via_cep',
+          tileProvider: NetworkTileProvider(
+            cachingProvider: const DisabledMapCachingProvider(),
+          ),
+          // And many more recommended properties!
+        ),
+        MarkerLayer(
+          markers: [
+            Marker(
+              point: LatLng(lat, lng),
+              width: 22,
+              height: 22,
+              child: const Icon(
+                Icons.location_pin,
+                color: Colors.red,
+                size: 22,
+              ),
+            ),
+          ],
+        ),
+        RichAttributionWidget(
+          attributions: [
+            TextSourceAttribution(
+              'OpenStreetMap contributors',
+              onTap: () => launchUrl(
+                Uri.parse('https://openstreetmap.org/copyright'),
+              ), // (external)
+            ),
+            // Also add images...
+          ],
+        ),
+      ],
+    );
+  }
+
+  void launchUrl(Uri parse) {
+    log(parse.toString());
   }
 }
