@@ -1,7 +1,6 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:via_cep/app/domain/entities/address.dart';
 import 'package:via_cep/app/domain/use_cases/get_address_by_cep.dart';
-import 'package:via_cep/app/shared/result_pattern.dart';
 
 part 'home_event.dart';
 part 'home_state.dart';
