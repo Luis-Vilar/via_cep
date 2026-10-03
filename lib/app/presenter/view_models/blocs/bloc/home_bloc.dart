@@ -13,14 +13,12 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
     on<GetAddressEvent>((event, emit) async {
       emit(HomeLoading());
       final result = await _getAddressUseCase(event.zipCode);
-
-      if (result is Success) {
-        final address = result.data;
-        emit(HomeSuccess(address: address!));
-      }
-      if (result is FailureResult) {
-        emit(HomeError(message: result.failure!.message));
-      }
+      emit(
+        result.fold(
+          (failure) => HomeError(message: failure.message),
+          (data) => HomeSuccess(address: data),
+        ),
+      );
     });
   }
 }
