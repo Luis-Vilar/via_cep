@@ -23,10 +23,11 @@ final class AddressModel extends Address {
     final address = document.rootElement;
 
     String value(String tag) => address.getElement(tag)?.innerText.trim() ?? '';
-    int number(String tag) => int.parse(value(tag));
+    int number(String tag) => int.tryParse(value(tag)) ?? 0;
+    String zipCode() => value('cep').replaceAll('-', '');
 
     return AddressModel(
-      cep: number('cep'),
+      cep: zipCode(),
       logadouro: value('logradouro'),
       complemento: value('complemento'),
       unidade: value('unidade'),
